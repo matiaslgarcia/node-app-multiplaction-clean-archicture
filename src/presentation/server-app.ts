@@ -1,5 +1,6 @@
 import { CreateTable } from '../domain/use-cases/create-table.use-case';
 import { SaveFile } from '../domain/use-cases/save-file.use-case';
+
 interface RunOptions {
     base: number,
     limit: number,
@@ -15,16 +16,18 @@ export class ServerApp {
 
         const table = new CreateTable().execute({ base, limit })
         const wasCreated = new SaveFile().execute(
-            { 
+            {
                 fileContent: table,
-                fileDestination: `${destination}/table-${base}`, 
+                fileDestination: `${destination}/table-${base}`,
                 fileName: name
             })
-        
+
         if (showTable) {
             console.log(table)
         }
 
-        (wasCreated) ? console.log('File Created') : console.error('File not created')
+        (wasCreated)
+            ? console.log('File Created')
+            : console.error('File not created')
     }
 }
